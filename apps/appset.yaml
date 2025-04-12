@@ -60,6 +60,7 @@ spec:
         server: '{{.server}}'
         namespace: guestbook-ng
       syncPolicy:
-        automated: {}
+        automated:
+          selfHeal: true
         syncOptions:
         - CreateNamespace=true
