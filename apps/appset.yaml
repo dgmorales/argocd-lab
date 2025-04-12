@@ -30,3 +30,36 @@ spec:
         automated: {}
         syncOptions:
         - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook-ng
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          # only add app to worker clusters
+          role: worker
+  template:
+    metadata:
+      name: '{{.name}}-guestbook-ng'
+      finalizers:
+        # cascade delete app resources
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      source:
+        repoURL:  https://github.com/argoproj/argocd-example-apps/
+        targetRevision: HEAD
+        path: guestbook/
+      destination:
+        server: '{{.server}}'
+        namespace: guestbook-ng
+      syncPolicy:
+        automated: {}
+        syncOptions:
+        - CreateNamespace=true
