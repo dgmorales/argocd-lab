@@ -13,7 +13,7 @@ jobs:
   prod:
     name: Prod Deploy to lab-worker-1
     runs-on: ubuntu-latest
-    needs: dev
+    # needs: dev
     environment:
       name: prod
       url: https://github.com
