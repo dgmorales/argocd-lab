@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: guestbook
+  name: testapp
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -13,20 +13,19 @@ spec:
           role: worker
   template:
     metadata:
-      name: '{{.name}}-guestbook'
+      name: '{{.name}}-testapp'
       finalizers:
         # cascade delete app resources
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       source:
-        repoURL:  https://github.com/argoproj/argocd-example-apps/
+        repoURL:  https://github.com/dgmorales/argocd-lab.git
         targetRevision: HEAD
-        path: guestbook/
+        path: manifests/
       destination:
-        server: '{{.server}}'
-        namespace: guestbook
+        name: '{{.name}}'
+        namespace: testapp
       syncPolicy:
-        automated: {}
         syncOptions:
         - CreateNamespace=true
