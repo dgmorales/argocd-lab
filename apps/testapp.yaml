@@ -22,7 +22,7 @@ spec:
       source:
         repoURL:  https://github.com/dgmorales/argocd-lab.git
         targetRevision: HEAD
-        path: manifests/
+        path: manifests/{{.name}}
       destination:
         name: '{{.name}}'
         namespace: testapp
