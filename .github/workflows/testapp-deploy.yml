@@ -4,7 +4,7 @@ name: Deploy testapp
 on:
   # Triggers the workflow on push or pull request events but only for the "dev" tag
   push:
-    branches: [ "main" ]
+    branches: [ "test-argo-workflow" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,6 +23,7 @@ jobs:
   prod:
     name: Prod Deploy to lab-worker-1
     runs-on: ubuntu-latest
+    needs: dev
     environment:
       name: prod
       url: https://github.com
