@@ -22,12 +22,10 @@ jobs:
     steps:
       - name: Sync testapp
         run: |
-          wget -O /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
-          chmod +x /usr/local/bin/argocd
-          ls -l /usr/local/bin/argocd
-          env
-          argocd app sync lab-worker-0-testapp
-          argocd app wait lab-worker-0-testapp
+          wget -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
+          chmod +x argocd
+          ./argocd app sync lab-worker-0-testapp
+          ./argocd app wait lab-worker-0-testapp
   prod:
     name: Prod Deploy to lab-worker-1
     runs-on: ubuntu-latest
@@ -41,7 +39,7 @@ jobs:
     steps:
       - name: Sync testapp
         run: |
-          wget -O /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
-          chmod +x /usr/local/bin/argocd
-          argocd app sync lab-worker-1-testapp
-          argocd app wait lab-worker-1-testapp
+          wget -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
+          chmod +x argocd
+          ./argocd app sync lab-worker-1-testapp
+          ./argocd app wait lab-worker-1-testapp
