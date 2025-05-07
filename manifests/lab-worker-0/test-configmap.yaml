@@ -5,4 +5,4 @@ metadata:
     app.kubernetes.io/name: test-configmap
   name: test-configmap
 data:
-  test: "0c"
+  test: "0d"
