@@ -17,13 +17,15 @@ jobs:
       name: dev
       url: https://github.com
     env:
-      ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+      ARGOCD_SERVER: ${{ vars.ARGOCD_SERVER }}
       ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
     steps:
       - name: Sync testapp
         run: |
           wget -O /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
           chmod +x /usr/local/bin/argocd
+          ls -l /usr/local/bin/argocd
+          env
           argocd app sync lab-worker-0-testapp
           argocd app wait lab-worker-0-testapp
   prod:
@@ -34,7 +36,7 @@ jobs:
       name: prod
       url: https://github.com
     env:
-      ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+      ARGOCD_SERVER: ${{ vars.ARGOCD_SERVER }}
       ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
     steps:
       - name: Sync testapp
