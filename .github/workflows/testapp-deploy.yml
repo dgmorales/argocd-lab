@@ -16,17 +16,30 @@ jobs:
     environment:
       name: dev
       url: https://github.com
+    env:
+      ARGOCD_SERVER: ${{ vars.ARGOCD_SERVER }}
+      ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
     steps:
-      - name: test step
+      - name: Sync testapp
         run: |
-          echo "This is a test step"
+          wget -q -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
+          chmod +x argocd
+          ./argocd --insecure app sync lab-worker-0-testapp
+          ./argocd --insecure app wait lab-worker-0-testapp
   prod:
     name: Prod Deploy to lab-worker-1
     runs-on: ubuntu-latest
+    needs: dev
     environment:
       name: prod
       url: https://github.com
+    env:
+      ARGOCD_SERVER: ${{ vars.ARGOCD_SERVER }}
+      ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
     steps:
-      - name: test step
+      - name: Sync testapp
         run: |
-          echo "This is a test step"
+          wget -q -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
+          chmod +x argocd
+          ./argocd --insecure app sync lab-worker-1-testapp
+          ./argocd --insecure app wait lab-worker-1-testapp
