@@ -22,10 +22,10 @@ jobs:
     steps:
       - name: Sync testapp
         run: |
-          wget -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
+          wget -q -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
           chmod +x argocd
-          ./argocd app sync lab-worker-0-testapp
-          ./argocd app wait lab-worker-0-testapp
+          ./argocd --insecure app sync lab-worker-0-testapp
+          ./argocd --insecure app wait lab-worker-0-testapp
   prod:
     name: Prod Deploy to lab-worker-1
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Sync testapp
         run: |
-          wget -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
+          wget -q -O argocd https://github.com/argoproj/argo-cd/releases/download/v2.14.6/argocd-linux-amd64
           chmod +x argocd
-          ./argocd app sync lab-worker-1-testapp
-          ./argocd app wait lab-worker-1-testapp
+          ./argocd --insecure app sync lab-worker-1-testapp
+          ./argocd --insecure app wait lab-worker-1-testapp
