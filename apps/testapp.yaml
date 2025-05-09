@@ -6,11 +6,15 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-  - clusters:
-      selector:
-        matchLabels:
-          # only add app to worker clusters
-          role: worker
+  - matrix:
+      generators:
+      - git:
+          repoURL: git@github.com:dgmorales/argocd-lab.git
+          revision: HEAD
+          files:
+          - path: config/testapp-clusters.yaml
+      - list:
+          elementsYaml: "{{ .clusters | toJson }}"
   template:
     metadata:
       name: '{{.name}}-testapp'
@@ -21,7 +25,7 @@ spec:
       project: default
       source:
         repoURL:  https://github.com/dgmorales/argocd-lab.git
-        targetRevision: HEAD
+        targetRevision: {{.repoRef}}
         path: manifests/{{.name}}
       destination:
         name: '{{.name}}'

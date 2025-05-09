@@ -1,0 +1,7 @@
+clusters:
+- name: in-cluster
+  repoRef: lab
+- name: lab-worker-0
+  repoRef: HEAD
+- name: lab-worker-1
+  repoRef: HEAD
