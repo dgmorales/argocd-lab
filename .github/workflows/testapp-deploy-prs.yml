@@ -29,25 +29,13 @@ jobs:
           git push origin lab --force
       - name: Create PR for deploy group 1
         run: |
-          git checkout ${branch}
           version=$(git rev-parse HEAD)
-          git checkout -b "deploy-group-1"
-
           yq -i '(.clusters[] | select(.deploy-group == "1") .repoRef) |= "${version}"' config/testapp-clusters.yaml
-
-          git add config/testapp-clusters.yaml
-          git commit -m "Update repoRef for deploy-group 1"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
       - name: Create PR for deploy group 2
         run: |
-          git checkout ${branch}
           version=$(git rev-parse HEAD)
-          git checkout -b "deploy-group-2"
-
           yq -i '(.clusters[] | select(.deploy-group == "2") .repoRef) |= "${version}"' config/testapp-clusters.yaml
-
-          git add config/testapp-clusters.yaml
-          git commit -m "Update repoRef for deploy-group 2"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
