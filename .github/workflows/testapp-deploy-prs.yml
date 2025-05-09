@@ -11,6 +11,8 @@ jobs:
   merge:
     name: Prepare testapp deployment
     runs-on: ubuntu-latest
+    env:
+      branch: ${{ github.ref_name }}
     environment:
       name: deploy
       url: https://localhost:8080/applications
@@ -25,6 +27,27 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag lab
           git push origin lab --force
-      - name: Create PR for dev
+      - name: Create PR for deploy group 1
         run: |
-          ls
+          git checkout ${branch}
+          version=$(git rev-parse HEAD)
+          git checkout -b "deploy-group-1"
+
+          yq '(.clusters[] | select(.deploy-group == "1") .repoRef = "${version}")' config/testapp-clusters.yaml
+
+          git add config/testapp-clusters.yaml
+          git commit -m "Update repoRef for deploy-group 1"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+      - name: Create PR for deploy group 2
+        run: |
+          git checkout ${branch}
+          version=$(git rev-parse HEAD)
+          git checkout -b "deploy-group-2"
+
+          yq '(.clusters[] | select(.deploy-group == "2") .repoRef = "${version}")' config/testapp-clusters.yaml
+
+          git add config/testapp-clusters.yaml
+          git commit -m "Update repoRef for deploy-group 2"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
