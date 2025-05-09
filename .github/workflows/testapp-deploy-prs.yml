@@ -33,7 +33,7 @@ jobs:
           version=$(git rev-parse HEAD)
           git checkout -b "deploy-group-1"
 
-          yq '(.clusters[] | select(.deploy-group == "1") .repoRef = "${version}")' config/testapp-clusters.yaml
+          yq -i '(.clusters[] | select(.deploy-group == "1") .repoRef) |= "${version}"' config/testapp-clusters.yaml
 
           git add config/testapp-clusters.yaml
           git commit -m "Update repoRef for deploy-group 1"
@@ -45,7 +45,7 @@ jobs:
           version=$(git rev-parse HEAD)
           git checkout -b "deploy-group-2"
 
-          yq '(.clusters[] | select(.deploy-group == "2") .repoRef = "${version}")' config/testapp-clusters.yaml
+          yq -i '(.clusters[] | select(.deploy-group == "2") .repoRef) |= "${version}"' config/testapp-clusters.yaml
 
           git add config/testapp-clusters.yaml
           git commit -m "Update repoRef for deploy-group 2"
