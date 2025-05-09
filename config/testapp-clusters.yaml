@@ -6,5 +6,5 @@ clusters:
     repoRef: HEAD
     deploy-group: 1
   - name: lab-worker-1
-    repoRef: HEAD
+    repoRef: ${version}
     deploy-group: 2
