@@ -1,7 +1,10 @@
 clusters:
-- name: in-cluster
-  repoRef: lab
-- name: lab-worker-0
-  repoRef: HEAD
-- name: lab-worker-1
-  repoRef: HEAD
+  - name: in-cluster
+    repoRef: lab
+    deploy-group: 0
+  - name: lab-worker-0
+    repoRef: HEAD
+    deploy-group: 1
+  - name: lab-worker-1
+    repoRef: HEAD
+    deploy-group: 2
