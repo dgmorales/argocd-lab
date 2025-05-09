@@ -1,0 +1,37 @@
+name: Deploy testapp
+
+on:
+  push:
+    branches: [ "main", "new-template-pr-refs" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  merge:
+    name: Prepare testapp deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+      - name: Update lab tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag lab
+          git push origin lab --force
+      - name: test yq
+        run: |
+          yq --help
+      - name: Download yq
+        run: |
+          wget -q -O yq https://github.com/mikefarah/yq/releases/download/v4.45.2/yq_linux_amd64
+          chmod +x yq
+      - name: test yq
+        run: |
+          ./yq --help
+      - name: Create PR for dev
+        run: |
+          ls
