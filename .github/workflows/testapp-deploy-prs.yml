@@ -11,6 +11,9 @@ jobs:
   merge:
     name: Prepare testapp deployment
     runs-on: ubuntu-latest
+    environment:
+      name: deploy
+      url: https://localhost:8080/applications
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
