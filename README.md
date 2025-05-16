@@ -1,2 +1,2 @@
 # argocd-lab
-Tests, experiments and examples on using Argo CD
+Tests, try and examples on using Argo CD
